@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    This description uses the Denavit-Hartenberg (DH) conventions to place the reference frames of the joints.
+    It uses offsets and rotations to correctly place the visual and collision meshes.
+-->
+
+<robot  name="fanuc_m-20ia">
+
+    <!-- Virtual joint is added through moveit setup assistant -->
+    <!-- ******************** Used for fixing robot to Gazebo 'base_link' ********************-->
+    <!--
+    <link name="world"/>
+    <joint name="virtual_joint" type="fixed">
+        <parent link="world"/>
+        <child link="base_link"/>
+    </joint>
+    -->
+
+    <!--************************************************BASE_LINK********************************************-->
+    <link name="base_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://fanuc_m20ia_description/meshes/visual/link_0.dae" />
+            </geometry>
+            <material name=""/>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://fanuc_m20ia_description/meshes/collision/link_0.stl" />
+            </geometry>
+        </collision>
+    </link>
+
+    <!--************************************************LINK 1********************************************-->
+    <link name="link1">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://fanuc_m20ia_description/meshes/visual/link_1.dae" />
+            </geometry>
+            <material name=""/>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://fanuc_m20ia_description/meshes/collision/link_1.stl" />
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="joint1" type="revolute">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="base_link" />
+        <child link="link1" />
+        <axis xyz="0 0 1" />
+        <limit lower="-2.965" upper="2.965" effort="0" velocity="3.4" />
+    </joint>
+
+    <!--************************************************LINK 2********************************************-->
+    <link name="link2">
+        <visual>
+            <origin xyz="-0.15 -0.525 0" rpy="-1.5708 0 0" />
+            <geometry>
+                <mesh filename="package://fanuc_m20ia_description/meshes/visual/link_2.dae" />
+            </geometry>
+            <material name=""/>
+        </visual>
+
+        <collision>
+            <origin xyz="-0.15 -0.525 0" rpy="-1.5708 0 0" />
+            <geometry>
+                <mesh filename="package://fanuc_m20ia_description/meshes/collision/link_2.stl" />
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="joint2" type="revolute">
+        <origin xyz="0.15 0 0.525" rpy="1.5708 0 0" />
+        <parent link="link1" />
+        <child link="link2" />
+        <axis xyz="0 0 1" />
+        <limit lower="-2.27" upper="2.27" effort="0" velocity="3.05" />
+    </joint>
+
+    <!--************************************************LINK 3********************************************-->
+    <link name="link3">
+        <visual>
+            <origin xyz="-1.315 0.15 0" rpy="-1.5708 0 -1.5708" />
+            <geometry>
+                <mesh filename="package://fanuc_m20ia_description/meshes/visual/link_3.dae" />
+            </geometry>
+            <material name=""/>
+        </visual>
+
+        <collision>
+            <origin xyz="-1.315 0.15 0" rpy="-1.5708 0 -1.5708" />
+            <geometry>
+                <mesh filename="package://fanuc_m20ia_description/meshes/collision/link_3.stl" />
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="joint3" type="revolute">
+        <origin xyz="0 0.79 0" rpy="0 0 1.5708" />
+        <parent link="link2" />
+        <child link="link3" />
+        <axis xyz="0 0 1" />
+        <limit lower="-4.0" upper="4.0" effort="0" velocity="3.14" />
+    </joint>
+
+    <!--************************************************LINK 4********************************************-->
+    <link name="link4">
+        <visual>
+            <origin xyz="1.465 0 -0.15" rpy="0 -1.5708 0" />
+            <geometry>
+                <mesh filename="package://fanuc_m20ia_description/meshes/visual/link_4.dae" />
+            </geometry>
+            <material name=""/>
+        </visual>
+
+        <collision>
+            <origin xyz="1.465 0 -0.15" rpy="0 -1.5708 0" />
+            <geometry>
+                <mesh filename="package://fanuc_m20ia_description/meshes/collision/link_4.stl" />
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="joint4" type="revolute">
+        <origin xyz="0.15 0 0" rpy="1.5708 0 0" />
+        <parent link="link3" />
+        <child link="link4" />
+        <axis xyz="0 0 1" />
+        <limit lower="-3.49" upper="3.49" effort="0" velocity="7.07" />
+    </joint>
+
+    <!--************************************************LINK 5********************************************-->
+    <link name="link5">
+        <visual>
+            <origin xyz="1.465 1.010 0" rpy="1.5708 0 -1.5708" />
+            <geometry>
+                <mesh filename="package://fanuc_m20ia_description/meshes/visual/link_5.dae" />
+            </geometry>
+            <material name=""/>
+        </visual>
+
+        <collision>
+            <origin xyz="1.465 1.010 0" rpy="1.5708 0 -1.5708" />
+            <geometry>
+                <mesh filename="package://fanuc_m20ia_description/meshes/collision/link_5.stl" />
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="joint5" type="revolute">
+        <origin xyz="0 0 0.86" rpy="-1.5708 0 0" />
+        <parent link="link4" />
+        <child link="link5" />
+        <axis xyz="0 0 1" />
+        <limit lower="-2.445" upper="2.445" effort="0" velocity="7.07" />
+    </joint>
+
+    <!--************************************************LINK 6********************************************-->
+    <link name="link6">
+        <visual>
+            <origin xyz="0 0 0.1" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://fanuc_m20ia_description/meshes/visual/link_6.dae" />
+            </geometry>
+            <material name=""/>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 0.1" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://fanuc_m20ia_description/meshes/collision/link_6.stl" />
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="joint6" type="revolute">
+        <origin xyz="0 0 0" rpy="1.5708 0 0" />
+        <parent link="link5" />
+        <child link="link6" />
+        <axis xyz="0 0 1" />
+        <limit lower="-7.855" upper="7.855" effort="0" velocity="10.73" />
+    </joint>
+
+    <!--************************************************FLANGE********************************************-->
+    <link name="flange"/>
+
+    <joint name="flange" type="fixed">
+        <!--Joint properties-->
+        <origin xyz="0 0 0.1" rpy="0 0 0" />
+        <parent link="link6" />
+        <child link="flange" />
+    </joint>
+
+</robot>

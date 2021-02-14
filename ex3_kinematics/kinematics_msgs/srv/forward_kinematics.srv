@@ -1,0 +1,14 @@
+Header header 
+ 
+# Name of the link you want to compute FK for
+string link
+# Current state of the joints of the robot
+float64[] joints_state
+# Name of the group of joints for which joint states have been provided. The "joints_state" parameter must contain
+# a state for each of the joints in this group, and the state is associated to the corresponding joint according to the
+# order of the states in the list and the order of the joints in the group, as they are found.
+string joint_group
+
+---
+
+geometry_msgs/PoseStamped pose

@@ -1,0 +1,3 @@
+/desired_link: "flange"
+/joint_group: "all_joints"
+/joints_state: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
