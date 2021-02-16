@@ -5,8 +5,9 @@
   <description>
      An automatically generated package with all the configuration and launch files for using the fanuc_m-20ia with the MoveIt! Motion Planning Framework
   </description>
-  <author email="irontux@null.org">irontux</author>
-  <maintainer email="irontux@null.org">irontux</maintainer>
+  <author email="f.chiarello1@studenti.unisa.it">Francesco Chiarello</author>
+
+  <maintainer email="f.chiarello1@studenti.unisa.it">Francesco Chiarello</maintainer>
 
   <license>BSD</license>
 

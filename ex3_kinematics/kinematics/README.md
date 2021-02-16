@@ -1,10 +1,14 @@
-# Ciao
+# Kinematics
 
-Doc funzione `RobotState::getGlobalLinkTransform` (da riga 1325 di [qui](https://github.com/ros-planning/moveit/blob/master/moveit_core/robot_state/include/moveit/robot_state/robot_state.h)):  
-Get the link transform w.r.t. the root link (model frame) of the RobotModel. This is typically the root link of the URDF unless a virtual joint is present.
+- Implements a service server that computes the direct kinematics of a robot and a service client that uses this service and prints the solution to stdout, together with the results obtained on the same input by the service /compute_fk of the move_group node.
+- Implements an action server that computes all the inverse kinematic solutions of a robot (one by one) and an action client that uses this action and prints the solutions to stdout (one by one, as their are received). The action server does not send the same solution twice and stops when all solutions have been found. At that time, they are returned all together. The client also publishes the IK solution for the visualization in RViz.
 
-=> nel `frame_id` sia della richiesta a movit che della mia risposta ho messo `RobotModel::getModelFrame()`.
+## Structure
 
-Serve che sia in esecuzione fanuc_moveit_config demo affinché funzioni.
+The action server is implemented through a node and a class, as shown in the actionlib tutorials. The other elements are simple ROS nodes.
 
-Il mio nodo permette di mettere i parametri richiesti dal messaggio sul parameter server, in modo da poterli variare senza dover ricompilare.
+The `default.yaml` file can be used to load custom configuration information for the forward kinematics node.
+
+## Usage
+
+Launch `demo.launch` from `fanuc_moveit_config` package so that robot description information is loaded on the parameter server, and then run either the forward kinematics server and client (`rosrun kinematics forward_kinematics_server_node`, `rosrun kinematics forward_kinematics_node` respectively) or the inverse kinematics action server (`rosrun kinematics inverse_kinematics_server_node`) and client (`rosrun kinematics inverse_kinematics_node`).

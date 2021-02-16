@@ -24,9 +24,6 @@ void kinematics::InverseKinematicsAction::compute_ik_(const kinematics_msgs::Inv
     robot_model_loader_ = std::make_shared<robot_model_loader::RobotModelLoader>("robot_description");
     kinematic_model_ = robot_model_loader_->getModel();
 
-    ROS_INFO_STREAM("Requested pose:\n" << goal->target_pose); // DEBUG
-    ROS_INFO_STREAM("Robot name: " << kinematic_model_->getName()); // DEBUG
-
     ROS_INFO("[IK Action Server] Data loaded, computing IK solutions...");
 
     // Go down to KinematicsBase in order to be able to set seed, so that it's possible to look for multiple solutions
@@ -48,8 +45,6 @@ void kinematics::InverseKinematicsAction::compute_ik_(const kinematics_msgs::Inv
         if(res.val == moveit_msgs::MoveItErrorCodes::SUCCESS)
         {
             
-            ROS_INFO("Solver found a pose!"); // DEBUG
-
             // Need to normalize to be able to understand that joint positions which differ by 2*pi are the same position
             normalizeJointPositions_(solution);  
 
@@ -69,14 +64,11 @@ void kinematics::InverseKinematicsAction::compute_ik_(const kinematics_msgs::Inv
 
                 result.ik_solutions.push_back(feedback.ik_solution);
 
-                ROS_INFO("Found new pose!"); // DEBUG
             }
         }
 
         n_attempts++;
     }
-
-    ROS_INFO("\n"); // DEBUG
 
     if(visited_solutions_.size() == 0){
         ROS_INFO("[IK Action Server] Could not find any IK solution for the requested pose!");

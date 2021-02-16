@@ -5,5 +5,7 @@ ex1_pub_sub/traccia.txt
 ex2_tf/traccia.txt
 ex2_tf/TODO.txt
 ex2_tf/current_tf/doc/
-ex2_tf/fanuc_m20ia_description/README.md
+ex2_tf/fanuc_m20ia_description/notes.md
 ex3_kinematics/traccia.txt
+ex3_kinematics/todo.txt
+ex3_kinematics/kinematics/notes.md

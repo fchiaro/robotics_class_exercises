@@ -3,9 +3,9 @@
   <version>0.1.0</version>
 
   <description>Visual robot model for Fanuc M-20iA</description>
-  <author email="irontux@irontux.null">irontux</author>
+  <author email="f.chiarello1@studenti.unisa.it">Francesco Chiarello</author>
 
-  <maintainer email="irontux@irontux.null">irontux</maintainer>
+  <maintainer email="f.chiarello1@studenti.unisa.it">Francesco Chiarello</maintainer>
 
   <license>BSD</license>
  
