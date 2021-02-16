@@ -11,6 +11,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   message_generation
   geometry_msgs
+  actionlib_msgs
+  moveit_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -55,23 +57,22 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## Generate services in the 'srv' folder
 add_service_files(
-   FILES
-   forward_kinematics.srv
+  FILES
+  forward_kinematics.srv
 #   Service2.srv
 )
 
 ## Generate actions in the 'action' folder
-# add_action_files(
-#   FILES
-#   Action1.action
-#   Action2.action
-# )
+add_action_files(
+  DIRECTORY action
+  FILES InverseKinematics.action
+)
 
 ## Generate added messages and services with any dependencies listed here
- generate_messages(
-   DEPENDENCIES
-   geometry_msgs  # Or other packages containing msgs
- )
+generate_messages(
+  DEPENDENCIES
+  geometry_msgs actionlib_msgs moveit_msgs  # Or other packages containing msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -105,7 +106,7 @@ add_service_files(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES kinematics_msgs
-#  CATKIN_DEPENDS roscpp
+  CATKIN_DEPENDS actionlib_msgs
 #  DEPENDS system_lib
 )
 

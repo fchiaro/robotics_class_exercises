@@ -6,3 +6,5 @@ Get the link transform w.r.t. the root link (model frame) of the RobotModel. Thi
 => nel `frame_id` sia della richiesta a movit che della mia risposta ho messo `RobotModel::getModelFrame()`.
 
 Serve che sia in esecuzione fanuc_moveit_config demo affinché funzioni.
+
+Il mio nodo permette di mettere i parametri richiesti dal messaggio sul parameter server, in modo da poterli variare senza dover ricompilare.

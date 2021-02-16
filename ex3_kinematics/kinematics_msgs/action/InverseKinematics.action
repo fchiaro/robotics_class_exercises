@@ -1,0 +1,12 @@
+# goal
+geometry_msgs/Pose target_pose
+
+---
+
+# result
+moveit_msgs/RobotState[] ik_solutions
+
+---
+
+# feedback
+moveit_msgs/RobotState ik_solution

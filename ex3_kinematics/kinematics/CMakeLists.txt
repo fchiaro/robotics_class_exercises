@@ -14,10 +14,11 @@ find_package(catkin REQUIRED COMPONENTS
   moveit_core
   moveit_ros_planning_interface
   geometry_msgs
+  actionlib
 )
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+find_package(Boost REQUIRED COMPONENTS system)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -106,7 +107,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
+  INCLUDE_DIRS include
 #  LIBRARIES kinematics
 #  CATKIN_DEPENDS roscpp
 #  DEPENDS system_lib
@@ -119,8 +120,9 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+  include
   ${catkin_INCLUDE_DIRS}
+  ${Boost_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -138,6 +140,7 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(forward_kinematics_node src/forward_kinematics_node/forward_kinematics.cpp)
 add_executable(forward_kinematics_server_node src/srv_servers/fk_server.cpp)
+add_executable(inverse_kinematics_server_node src/action_servers/ik_action_server.cpp src/action_servers/inverse_kinematics_action.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -155,6 +158,11 @@ target_link_libraries(forward_kinematics_node
 )
 
 target_link_libraries(forward_kinematics_server_node
+   ${catkin_LIBRARIES}
+)
+
+
+target_link_libraries(inverse_kinematics_server_node
    ${catkin_LIBRARIES}
 )
 
