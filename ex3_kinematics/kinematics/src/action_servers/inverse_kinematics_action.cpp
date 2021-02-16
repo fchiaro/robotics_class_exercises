@@ -34,7 +34,6 @@ void kinematics::InverseKinematicsAction::compute_ik_(const kinematics_msgs::Inv
 
     kinematics_msgs::InverseKinematicsResult result;
     int n_attempts = 0;
-    moveit_msgs::MoveItErrorCodes res;
 
     
     // Timeout in SRDF is 0.005 seconds, so 1000 attempts take at most 5 seconds
@@ -42,6 +41,7 @@ void kinematics::InverseKinematicsAction::compute_ik_(const kinematics_msgs::Inv
     {
         std::vector<double> initial_joints_config = generateRandomJointsConfig_();
         std::vector<double> solution;
+        moveit_msgs::MoveItErrorCodes res;
         
         ik_solver->getPositionIK(goal->target_pose, initial_joints_config, solution, res);
 
@@ -92,7 +92,8 @@ void kinematics::InverseKinematicsAction::compute_ik_(const kinematics_msgs::Inv
 
 }
 
-std::vector<double> kinematics::InverseKinematicsAction::generateRandomJointsConfig_(){
+std::vector<double> kinematics::InverseKinematicsAction::generateRandomJointsConfig_()
+{
     std::vector<double> joints_config;
     
     std::vector<std::string> joint_names = kinematic_model_->getVariableNames();
