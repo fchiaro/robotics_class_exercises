@@ -3,28 +3,31 @@
 #include <angles/angles.h>
 
 kinematics::InverseKinematicsAction::InverseKinematicsAction():
-    robot_model_loader_("robot_description"),
-    kinematic_model_(robot_model_loader_.getModel()),
-    kinematic_state_(new robot_state::RobotState(kinematic_model_)),
     action_server_(nh_, "ik_server", boost::bind(&kinematics::InverseKinematicsAction::compute_ik_, this, _1), false)
+    // robot_model_loader_("robot_description"),
+    // kinematic_model_(robot_model_loader_.getModel())
 {
     action_server_.start();
 };
 
 void kinematics::InverseKinematicsAction::compute_ik_(const kinematics_msgs::InverseKinematicsGoalConstPtr &goal)
 {
-    ROS_INFO("[IK Action Server] Received IK request\nLoading required data...");
+    ROS_INFO("[IK Action Server] Received IK request - Loading required data...");
 
     // Get planning group name
     if(!ros::param::param<std::string>("/joint_group", joint_group_, "all_joints"))
     {
-        ROS_WARN("Could not load user-defined joint group, going with the default one...");
+        ROS_WARN("[IK Action Server] Could not load user-defined joint group, going with the default one...");
     }
 
     // Build robot description objects (fresh data on each call)
-    // robot_model_loader_("robot_description");
-    // kinematic_model_ = robot_model_loader.getModel();
-    // kinematic_state_(new robot_state::RobotState(kinematic_model));
+    robot_model_loader_ = std::make_shared<robot_model_loader::RobotModelLoader>("robot_description");
+    kinematic_model_ = robot_model_loader_->getModel();
+
+    ROS_INFO_STREAM("Requested pose:\n" << goal->target_pose); // DEBUG
+    ROS_INFO_STREAM("Robot name: " << kinematic_model_->getName()); // DEBUG
+
+    ROS_INFO("[IK Action Server] Data loaded, computing IK solutions...");
 
     // Go down to KinematicsBase in order to be able to set seed, so that it's possible to look for multiple solutions
     const kinematics::KinematicsBaseConstPtr ik_solver = kinematic_model_->getJointModelGroup(joint_group_)->getSolverInstance();
@@ -35,7 +38,7 @@ void kinematics::InverseKinematicsAction::compute_ik_(const kinematics_msgs::Inv
 
     
     // Timeout in SRDF is 0.005 seconds, so 1000 attempts take at most 5 seconds
-    while(n_attempts < 1000 && ros::ok())
+    while(n_attempts < 10000 && ros::ok())
     {
         std::vector<double> initial_joints_config = generateRandomJointsConfig_();
         std::vector<double> solution;
@@ -44,6 +47,9 @@ void kinematics::InverseKinematicsAction::compute_ik_(const kinematics_msgs::Inv
 
         if(res.val == moveit_msgs::MoveItErrorCodes::SUCCESS)
         {
+            
+            ROS_INFO("Solver found a pose!"); // DEBUG
+
             // Need to normalize to be able to understand that joint positions which differ by 2*pi are the same position
             normalizeJointPositions_(solution);  
 
@@ -62,11 +68,15 @@ void kinematics::InverseKinematicsAction::compute_ik_(const kinematics_msgs::Inv
                 action_server_.publishFeedback(feedback);
 
                 result.ik_solutions.push_back(feedback.ik_solution);
+
+                ROS_INFO("Found new pose!"); // DEBUG
             }
         }
 
         n_attempts++;
     }
+
+    ROS_INFO("\n"); // DEBUG
 
     if(visited_solutions_.size() == 0){
         ROS_INFO("[IK Action Server] Could not find any IK solution for the requested pose!");
@@ -74,7 +84,7 @@ void kinematics::InverseKinematicsAction::compute_ik_(const kinematics_msgs::Inv
     }
     else
     {
-        ROS_INFO_STREAM("Found " << visited_solutions_.size() << " IK solutions for the requested pose!");   
+        ROS_INFO_STREAM("[IK Action Server] Found " << visited_solutions_.size() << " IK solutions for the requested pose!");   
         action_server_.setSucceeded(result);
     }
 

@@ -15,9 +15,8 @@ class InverseKinematicsAction
 {
 
     private:
-        robot_model_loader::RobotModelLoader robot_model_loader_;
+        robot_model_loader::RobotModelLoaderPtr robot_model_loader_;
         robot_model::RobotModelPtr kinematic_model_;
-        robot_state::RobotStatePtr kinematic_state_;
         std::string joint_group_;
         std::vector<std::vector<double>> visited_solutions_;
 

@@ -5,7 +5,7 @@ int main(int argc, char** argv)
 {
   ros::init(argc, argv, "IK_server");
 
-  kinematics::InverseKinematicsAction action();
+  kinematics::InverseKinematicsAction action;
   
   ROS_INFO("IK server initialized");
 

@@ -15,6 +15,8 @@ find_package(catkin REQUIRED COMPONENTS
   moveit_ros_planning_interface
   geometry_msgs
   actionlib
+  sensor_msgs
+  tf2_geometry_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -141,6 +143,7 @@ include_directories(
 add_executable(forward_kinematics_node src/forward_kinematics_node/forward_kinematics.cpp)
 add_executable(forward_kinematics_server_node src/srv_servers/fk_server.cpp)
 add_executable(inverse_kinematics_server_node src/action_servers/ik_action_server.cpp src/action_servers/inverse_kinematics_action.cpp)
+add_executable(inverse_kinematics_node src/inverse_kinematics_node/inverse_kinematics.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -163,6 +166,10 @@ target_link_libraries(forward_kinematics_server_node
 
 
 target_link_libraries(inverse_kinematics_server_node
+   ${catkin_LIBRARIES}
+)
+
+target_link_libraries(inverse_kinematics_node
    ${catkin_LIBRARIES}
 )
 
